@@ -17,7 +17,8 @@ import jakarta.persistence.*;
 @NamedEntityGraph(name = "Event.withClub",
         attributeNodes = {
                 @NamedAttributeNode(value = "club"),
-                @NamedAttributeNode(value = "eligibleBranches")
+                @NamedAttributeNode(value = "eligibleBranches"),
+                @NamedAttributeNode(value = "registeredStudents")
         })
 public class Event {
     @Id
@@ -33,13 +34,8 @@ public class Event {
 	@JsonIgnoreProperties("events")
     private Club club;
 
-    @ManyToMany
-    @JoinTable(
-        name = "event_registration",
-        joinColumns = @JoinColumn(name = "event_id"),
-        inverseJoinColumns = @JoinColumn(name = "student_id")
-    )
-    @JsonIgnore
+    @ManyToMany(mappedBy = "registeredEvents")
+    @JsonIgnoreProperties("registeredEvents")
     private Set<Student> registeredStudents = new HashSet<>();
 
     @ManyToMany

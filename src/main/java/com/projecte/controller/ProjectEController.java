@@ -135,5 +135,10 @@ public class ProjectEController {
     public void deleteClub(@PathVariable Long clubId) {
         projectEService.deleteClub(clubId);
     }
+    
+    @PostMapping("/students/{studentId}/register/{eventId}")
+    public void registerStudentForEvent(@PathVariable Long studentId, @PathVariable Long eventId) {
+        projectEService.registerStudentForEvent(studentId, eventId);
+    }
 
 }

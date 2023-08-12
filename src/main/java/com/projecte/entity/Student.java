@@ -14,7 +14,12 @@ import com.projecte.dtos.StudentDTO;
 import jakarta.persistence.*;
 
 @Entity
-@NamedEntityGraph(name = "Student.withBranch", attributeNodes = @NamedAttributeNode("branch"))
+@NamedEntityGraph(name = "Student.withBranch",
+attributeNodes = {
+        @NamedAttributeNode(value = "branch"),
+        @NamedAttributeNode(value = "registeredEvents"),
+        @NamedAttributeNode(value = "attendedEvents")
+})
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +39,16 @@ public class Student {
     @JsonIgnoreProperties("students")
     @JoinColumn(name = "branch_id")
     private Branch branch;
-
-    @ManyToMany(mappedBy = "registeredStudents")
-    @JsonIgnore
+    
+    @ManyToMany
+    @JoinTable(
+        name = "event_registration",
+        joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    @JsonIgnoreProperties("registeredStudents")
     private Set<Event> registeredEvents = new HashSet<>();
-
+    
     @ManyToMany(mappedBy = "attendedStudents")
     @JsonIgnore
     private Set<Event> attendedEvents = new HashSet<>();

@@ -129,4 +129,16 @@ public class ProjectEService {
         Optional<Club> clubOptional = clubRepository.findById(clubId);
         return clubOptional.orElse(null);
     }
+    
+    public void registerStudentForEvent(Long studentId, Long eventId) {
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        Student student = studentOptional.orElse(null);
+        Event event = getEventById(eventId);
+        if (student != null && event != null) {
+            student.getRegisteredEvents().add(event);
+            studentRepository.save(student);
+        } else {
+            // Handle student or event not found
+        }
+    }
 }
