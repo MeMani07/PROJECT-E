@@ -235,4 +235,12 @@ public class ProjectEService {
         }
         return eventDTOS;
     }
+
+    public List<StudentDTO> getRegisteredStudentsForBranchIdEventId(Long branchId, Long eventId){
+        return branchRepository.getRegisteredStudentsForBranchIdEventId(branchId, eventId);
+    }
+
+    public List<StudentDTO> getAttendedStudentsForBranchIdEventId(Long branchId, Long eventId){
+        return branchRepository.getAttendedStudentsForBranchIdEventId(branchId, eventId);
+    }
 }

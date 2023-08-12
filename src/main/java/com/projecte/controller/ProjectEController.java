@@ -185,4 +185,14 @@ public class ProjectEController {
         projectEService.deleteClub(clubId);
     }
 
+    @GetMapping("/branch/{branchId}/registered/{eventId}")
+    public List<StudentDTO> getRegisteredStudentsForBranchIdEventId(@PathVariable Long branchId, @PathVariable Long eventId){
+        return projectEService.getRegisteredStudentsForBranchIdEventId(branchId, eventId);
+    }
+
+    @GetMapping("/branch/{branchId}/attended/{eventId}")
+    public List<StudentDTO> getAttendedStudentsForBranchIdEventId(@PathVariable Long branchId, @PathVariable Long eventId){
+        return projectEService.getAttendedStudentsForBranchIdEventId(branchId, eventId);
+    }
+
 }
