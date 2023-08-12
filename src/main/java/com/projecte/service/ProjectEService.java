@@ -58,6 +58,28 @@ public class ProjectEService {
         Student student = studentOptional.orElse(null);
         return Student.toDto(student);
     }
+    
+    public Set<StudentDTO> getRegisteredStudentsByEventId(Long eventId){
+    	Optional<Event> eventOptional = eventRepository.findById(eventId);
+    	Event event = eventOptional.orElse(null);
+    	Set<Student> students = event.getRegisteredStudents();
+    	Set<StudentDTO> studentDTOs = new HashSet<>();
+    	for(Student student:students) {
+    		studentDTOs.add(new StudentDTO(student.getStudentId(),student.getStudentName()));
+    	}
+    	return studentDTOs;
+    }
+    
+    public Set<StudentDTO> getAttendedStudentsByEventId(Long eventId){
+    	Optional<Event> eventOptional = eventRepository.findById(eventId);
+    	Event event = eventOptional.orElse(null);
+    	Set<Student> students = event.getAttendedStudents();
+    	Set<StudentDTO> studentDTOs = new HashSet<>();
+    	for(Student student:students) {
+    		studentDTOs.add(new StudentDTO(student.getStudentId(),student.getStudentName()));
+    	}
+    	return studentDTOs;
+    }
 
     public Set<EventDTO> getRegisteredEventsByStudentId(Long studentId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);

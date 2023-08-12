@@ -48,7 +48,17 @@ public class ProjectEController {
     public Set<EventDTO> getRegisteredEventsByStudentId(@PathVariable Long studentId) {
         return projectEService.getRegisteredEventsByStudentId(studentId);
     }
-
+    
+    @GetMapping("/events/{eventId}/registered")
+    public Set<StudentDTO> getRegisteredStudentsByEventId(@PathVariable Long eventId){
+    	return projectEService.getRegisteredStudentsByEventId(eventId);
+    }
+    
+    @GetMapping("/events/{eventId}/attended")
+    public Set<StudentDTO> getAttendedStudentsByEventId(@PathVariable Long eventId){
+    	return projectEService.getAttendedStudentsByEventId(eventId);
+    }
+    
     @GetMapping("/students/{studentId}/attended")
     public Set<EventDTO> getAttendedEventsByStudentId(@PathVariable Long studentId) {
         return projectEService.getAttendedEventsByStudentId(studentId);

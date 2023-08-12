@@ -1,11 +1,11 @@
 package com.projecte.dtos;
 
 public class StudentDTO {
-	Long studentId;
-	String studentName;
-	String email;
-	String mobile;
-	BranchDTO branchDTO;
+	private Long studentId;
+	private String studentName;
+	private String email;
+	private String mobile;
+	private BranchDTO branchDTO;
 
 	public StudentDTO(Long studentId, String studentName, String email, String mobile, BranchDTO branchDTO) {
 		this.studentId = studentId;
@@ -19,6 +19,10 @@ public class StudentDTO {
 		this.studentName = studentName;
 		this.email = email;
 		this.mobile = mobile;
+	}
+	public StudentDTO(Long studentId, String studentName) {
+		this.studentId = studentId;
+		this.studentName = studentName;
 	}
 	public Long getStudentId() {
 		return studentId;
