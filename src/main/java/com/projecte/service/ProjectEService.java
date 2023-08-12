@@ -139,17 +139,24 @@ public class ProjectEService {
         branchRepository.deleteById(branchId);
     }
 
-    public List<Branch> getAllBranches() {
-        return branchRepository.findAll();
+    public List<BranchDTO> getAllBranches() {
+    	List<Branch> branches = branchRepository.findAll();
+    	List<BranchDTO> branchDTOs = new ArrayList<>();
+    	for(Branch branch:branches) {
+    		branchDTOs.add(new BranchDTO(branch.getBranchId(),branch.getYear(),branch.getBranchName()));
+    	}
+        return branchDTOs;
     }
 
-    public Branch getBranchByBranchId(Long branchId) {
+    public BranchDTO getBranchByBranchId(Long branchId) {
         Optional<Branch> branchOptional = branchRepository.findById(branchId);
-        return branchOptional.orElse(null);
+        Branch branch = branchOptional.orElse(null);
+        return new BranchDTO(branch.getBranchId(), branch.getYear(), branch.getBranchName());
     }
 
     public Set<EventDTO> getEventsOfBranchByBranchId(Long branchId) {
-        Branch branch = getBranchByBranchId(branchId);
+    	Optional<Branch> branchOptional = branchRepository.findById(branchId);
+    	Branch branch = branchOptional.orElse(null);
         Set<Event> events = branch.getEligibleEvents();
         Set<EventDTO> eventDTOS = new HashSet<>();
         for (Event event : events) {
@@ -159,7 +166,8 @@ public class ProjectEService {
     }
 
     public List<StudentDTO> getStudentsOfBranchByBranchId(Long branchId) {
-        Branch branch = getBranchByBranchId(branchId);
+    	Optional<Branch> branchOptional = branchRepository.findById(branchId);
+    	Branch branch = branchOptional.orElse(null);
         List<Student> students = branch.getStudents();
         List<StudentDTO> studentDTOS = new ArrayList<>();
         for (Student student : students) {
@@ -180,13 +188,19 @@ public class ProjectEService {
         clubRepository.deleteById(clubId);
     }
 
-    public List<Club> getAllClubs() {
-        return clubRepository.findAll();
+    public List<ClubDTO> getAllClubs() {
+    	List<Club> clubs = clubRepository.findAll();
+    	List<ClubDTO> clubDTOs = new ArrayList<>();
+    	for(Club club:clubs) {
+    		clubDTOs.add(new ClubDTO(club.getClubId(),club.getClubName()));
+    	}
+        return clubDTOs;
     }
 
-    public Club getClubByClubId(Long clubId) {
+    public ClubDTO getClubByClubId(Long clubId) {
         Optional<Club> clubOptional = clubRepository.findById(clubId);
-        return clubOptional.orElse(null);
+        Club club = clubOptional.orElse(null);
+        return new ClubDTO(club.getClubId(),club.getClubName());
     }
 
     public List<EventDTO> getAllEventsOfAClubByClubId(Long clubId) {

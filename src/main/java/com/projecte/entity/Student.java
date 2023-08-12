@@ -49,7 +49,12 @@ public class Student {
     @JsonIgnoreProperties("registeredStudents")
     private Set<Event> registeredEvents = new HashSet<>();
     
-    @ManyToMany(mappedBy = "attendedStudents")
+    @ManyToMany
+    @JoinTable(
+            name = "event_attendance",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+        )
 	@JsonIgnoreProperties("attendedStudents")
     private Set<Event> attendedEvents = new HashSet<>();
 

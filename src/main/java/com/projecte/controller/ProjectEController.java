@@ -3,6 +3,8 @@ package com.projecte.controller;
 import java.util.List;
 import java.util.Set;
 
+import com.projecte.dtos.BranchDTO;
+import com.projecte.dtos.ClubDTO;
 import com.projecte.dtos.EventDTO;
 import com.projecte.dtos.StudentDTO;
 
@@ -106,12 +108,12 @@ public class ProjectEController {
     }
 
     @GetMapping("/branches")
-    public List<Branch> getAllBranches() {
+    public List<BranchDTO> getAllBranches() {
         return projectEService.getAllBranches();
     }
 
     @GetMapping("/branches/{branchId}")
-    public Branch getBranchByBranchId(@PathVariable Long branchId) {
+    public BranchDTO getBranchByBranchId(@PathVariable Long branchId) {
         return projectEService.getBranchByBranchId(branchId);
     }
 
@@ -143,12 +145,12 @@ public class ProjectEController {
 
 
     @GetMapping("/clubs")
-    public List<Club> getAllClubs() {
+    public List<ClubDTO> getAllClubs() {
         return projectEService.getAllClubs();
     }
 
     @GetMapping("/clubs/{clubId}")
-    public Club getClubByClubId(@PathVariable Long clubId) {
+    public ClubDTO getClubByClubId(@PathVariable Long clubId) {
         return projectEService.getClubByClubId(clubId);
     }
 
