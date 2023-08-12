@@ -49,7 +49,7 @@ public class ProjectEService {
     }
 
     public List<StudentDTO> getAllStudents() {
-    	List<Student> students = studentRepository.findAll();
+        List<Student> students = studentRepository.findAll();
         return Student.toDto(students);
     }
 
@@ -59,14 +59,53 @@ public class ProjectEService {
         return Student.toDto(student);
     }
 
+    public Set<EventDTO> getRegisteredEventsByStudentId(Long studentId) {
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        Student student = studentOptional.orElse(null);
+        Set<Event> events = student.getRegisteredEvents();
+        Set<EventDTO> eventDTOS = new HashSet<>();
+        for (Event event : events) {
+            eventDTOS.add(new EventDTO(event.getEventId(), event.getEventName()));
+        }
+        return eventDTOS;
+    }
+
+    public Set<EventDTO> getAttendedEventsByStudentId(Long studentId) {
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        Student student = studentOptional.orElse(null);
+        Set<Event> events = student.getAttendedEvents();
+        Set<EventDTO> eventDTOS = new HashSet<>();
+        for (Event event : events) {
+            eventDTOS.add(new EventDTO(event.getEventId(), event.getEventName()));
+        }
+        return eventDTOS;
+    }
+
+    public void registerStudentForEvent(Long studentId, Long eventId) {
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        Student student = studentOptional.orElse(null);
+        Event event = getEventById(eventId);
+        if (student != null && event != null) {
+            student.getRegisteredEvents().add(event);
+            studentRepository.save(student);
+        } else {
+            // Handle student or event not found
+        }
+    }
+
+    public void markAttendanceByStudentId(Long studentId, Long eventId) {
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        Student student = studentOptional.orElse(null);
+        Event event = getEventById(eventId);
+        if (student != null && event != null) {
+            student.getAttendedEvents().add(event);
+            studentRepository.save(student);
+        } else {
+            // Handle student or event not found
+        }
+    }
 
     public void addEvent(Event event) {
-        Set<Branch> branches = new HashSet<>();
-        for(Branch branchPassed: event.getEligibleBranches()){
-            Branch branch = getBranchByBranchId(branchPassed.getBranchId());
-            branches.add(branch);
-        }
-        event.setEligibleBranches(branches);
         eventRepository.save(event);
     }
 
@@ -79,7 +118,7 @@ public class ProjectEService {
     }
 
     public List<EventDTO> getAllEvents() {
-    	List<Event> events = eventRepository.findAll();
+        List<Event> events = eventRepository.findAll();
         return Event.toDto(events);
     }
 
@@ -109,6 +148,26 @@ public class ProjectEService {
         return branchOptional.orElse(null);
     }
 
+    public Set<EventDTO> getEventsOfBranchByBranchId(Long branchId) {
+        Branch branch = getBranchByBranchId(branchId);
+        Set<Event> events = branch.getEligibleEvents();
+        Set<EventDTO> eventDTOS = new HashSet<>();
+        for (Event event : events) {
+            eventDTOS.add(new EventDTO(event.getEventId(), event.getEventName()));
+        }
+        return eventDTOS;
+    }
+
+    public List<StudentDTO> getStudentsOfBranchByBranchId(Long branchId) {
+        Branch branch = getBranchByBranchId(branchId);
+        List<Student> students = branch.getStudents();
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+        for (Student student : students) {
+            studentDTOS.add(new StudentDTO(student.getStudentId(), student.getStudentName(), student.getEmail(), student.getMobile()));
+        }
+        return studentDTOS;
+    }
+
     public void addClub(Club club) {
         clubRepository.save(club);
     }
@@ -129,16 +188,15 @@ public class ProjectEService {
         Optional<Club> clubOptional = clubRepository.findById(clubId);
         return clubOptional.orElse(null);
     }
-    
-    public void registerStudentForEvent(Long studentId, Long eventId) {
-        Optional<Student> studentOptional = studentRepository.findById(studentId);
-        Student student = studentOptional.orElse(null);
-        Event event = getEventById(eventId);
-        if (student != null && event != null) {
-            student.getRegisteredEvents().add(event);
-            studentRepository.save(student);
-        } else {
-            // Handle student or event not found
+
+    public List<EventDTO> getAllEventsOfAClubByClubId(Long clubId) {
+        Optional<Club> clubOptional = clubRepository.findById(clubId);
+        Club club = clubOptional.orElse(null);
+        List<Event> events = club.getEvents();
+        List<EventDTO> eventDTOS = new ArrayList<>();
+        for(Event event : events){
+            eventDTOS.add(new EventDTO(event.getEventId(), event.getEventName()));
         }
+        return eventDTOS;
     }
 }

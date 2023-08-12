@@ -6,12 +6,19 @@ public class StudentDTO {
 	String email;
 	String mobile;
 	BranchDTO branchDTO;
+
 	public StudentDTO(Long studentId, String studentName, String email, String mobile, BranchDTO branchDTO) {
 		this.studentId = studentId;
 		this.studentName = studentName;
 		this.email = email;
 		this.mobile = mobile;
 		this.branchDTO = branchDTO;
+	}
+	public StudentDTO(Long studentId, String studentName, String email, String mobile) {
+		this.studentId = studentId;
+		this.studentName = studentName;
+		this.email = email;
+		this.mobile = mobile;
 	}
 	public Long getStudentId() {
 		return studentId;

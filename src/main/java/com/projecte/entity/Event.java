@@ -18,7 +18,8 @@ import jakarta.persistence.*;
         attributeNodes = {
                 @NamedAttributeNode(value = "club"),
                 @NamedAttributeNode(value = "eligibleBranches"),
-                @NamedAttributeNode(value = "registeredStudents")
+				@NamedAttributeNode(value = "registeredStudents"),
+				@NamedAttributeNode(value = "attendedStudents")
         })
 public class Event {
     @Id
@@ -44,7 +45,7 @@ public class Event {
         joinColumns = @JoinColumn(name = "event_id"),
         inverseJoinColumns = @JoinColumn(name = "student_id")
     )
-    @JsonIgnore
+	@JsonIgnoreProperties("attendedEvents")
     private Set<Student> attendedStudents = new HashSet<>();
 
     @ManyToMany

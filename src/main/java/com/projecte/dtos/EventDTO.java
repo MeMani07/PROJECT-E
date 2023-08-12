@@ -15,6 +15,11 @@ public class EventDTO {
     public EventDTO() {
     }
 
+    public EventDTO(Long eventId, String eventName) {
+        this.eventId = eventId;
+        this.eventName = eventName;
+    }
+
     public EventDTO(Long eventId, String eventName, ClubDTO clubDTO, Set<BranchDTO> branchDTOS) {
         this.eventId = eventId;
         this.eventName = eventName;

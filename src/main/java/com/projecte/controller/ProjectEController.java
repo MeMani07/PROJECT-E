@@ -1,6 +1,7 @@
 package com.projecte.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import com.projecte.dtos.EventDTO;
 import com.projecte.dtos.StudentDTO;
@@ -28,7 +29,7 @@ public class ProjectEController {
 
     @Autowired
     private ProjectEService projectEService;
-    
+
     @GetMapping("/students")
     public List<StudentDTO> getAllStudents() { //done
 
@@ -36,9 +37,19 @@ public class ProjectEController {
         return students;
     }
 
-    @GetMapping("/students/{studentId}") 
+    @GetMapping("/students/{studentId}")
     public StudentDTO getStudentById(@PathVariable Long studentId) { //doing
         return projectEService.getStudentById(studentId);
+    }
+
+    @GetMapping("/students/{studentId}/registered")
+    public Set<EventDTO> getRegisteredEventsByStudentId(@PathVariable Long studentId) {
+        return projectEService.getRegisteredEventsByStudentId(studentId);
+    }
+
+    @GetMapping("/students/{studentId}/attended")
+    public Set<EventDTO> getAttendedEventsByStudentId(@PathVariable Long studentId) {
+        return projectEService.getAttendedEventsByStudentId(studentId);
     }
 
 
@@ -53,6 +64,16 @@ public class ProjectEController {
         projectEService.updateStudent(student);
     }
 
+    @PutMapping("/students/{studentId}/register/{eventId}")
+    public void registerStudentForEvent(@PathVariable Long studentId, @PathVariable Long eventId) {
+        projectEService.registerStudentForEvent(studentId, eventId);
+    }
+
+    @PutMapping("/students/{studentId}/attended/{eventId}")
+    public void markAttendanceByStudentId(@PathVariable Long studentId, @PathVariable Long eventId) {
+        projectEService.markAttendanceByStudentId(studentId, eventId);
+    }
+
     @DeleteMapping("/students/{studentId}")
     public void deleteStudent(@PathVariable Long studentId) {
         projectEService.deleteStudent(studentId);
@@ -62,11 +83,12 @@ public class ProjectEController {
     public List<EventDTO> getAllEvents() {
         return projectEService.getAllEvents();
     }
+
     @GetMapping("/events/{eventId}")
     public Event getEventById(@PathVariable Long eventId) {
         return projectEService.getEventById(eventId);
     }
-    
+
     @PostMapping(path = "/events", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void addEvent(@RequestBody Event event) {
         projectEService.addEvent(event);
@@ -90,7 +112,17 @@ public class ProjectEController {
 
     @GetMapping("/branches/{branchId}")
     public Branch getBranchByBranchId(@PathVariable Long branchId) {
-        return  projectEService.getBranchByBranchId(branchId);
+        return projectEService.getBranchByBranchId(branchId);
+    }
+
+    @GetMapping("/branches/{branchId}/events")
+    public Set<EventDTO> getEventsOfBranchByBranchId(@PathVariable Long branchId) {
+        return projectEService.getEventsOfBranchByBranchId(branchId);
+    }
+
+    @GetMapping("/branches/{branchId}/students")
+    public List<StudentDTO> getStudentsOfBranchByBranchId(@PathVariable Long branchId) {
+        return projectEService.getStudentsOfBranchByBranchId(branchId);
     }
 
     @PostMapping("/branches")
@@ -115,9 +147,14 @@ public class ProjectEController {
         return projectEService.getAllClubs();
     }
 
-    @GetMapping("/clubs{clubId}")
+    @GetMapping("/clubs/{clubId}")
     public Club getClubByClubId(@PathVariable Long clubId) {
         return projectEService.getClubByClubId(clubId);
+    }
+
+    @GetMapping("/clubs/{clubId}/events")
+    public List<EventDTO> getAllEventsOfAClubByClubId(@PathVariable Long clubId) {
+        return projectEService.getAllEventsOfAClubByClubId(clubId);
     }
 
     @PostMapping("/clubs")
@@ -134,11 +171,6 @@ public class ProjectEController {
     @DeleteMapping("/clubs/{clubId}")
     public void deleteClub(@PathVariable Long clubId) {
         projectEService.deleteClub(clubId);
-    }
-    
-    @PostMapping("/students/{studentId}/register/{eventId}")
-    public void registerStudentForEvent(@PathVariable Long studentId, @PathVariable Long eventId) {
-        projectEService.registerStudentForEvent(studentId, eventId);
     }
 
 }

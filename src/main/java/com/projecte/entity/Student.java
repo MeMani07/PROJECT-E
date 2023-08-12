@@ -50,7 +50,7 @@ public class Student {
     private Set<Event> registeredEvents = new HashSet<>();
     
     @ManyToMany(mappedBy = "attendedStudents")
-    @JsonIgnore
+	@JsonIgnoreProperties("attendedStudents")
     private Set<Event> attendedEvents = new HashSet<>();
 
 	public Long getStudentId() {
