@@ -3,6 +3,8 @@ package com.projecte.controller;
 import java.util.List;
 
 import com.projecte.dtos.EventDTO;
+import com.projecte.dtos.StudentDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,16 +30,14 @@ public class ProjectEController {
     private ProjectEService projectEService;
     
     @GetMapping("/students")
-    public List<Student> getAllStudents() {
+    public List<StudentDTO> getAllStudents() { //done
 
-        List<Student> students = projectEService.getAllStudents();
-
-        System.out.println(students.get(0));
+        List<StudentDTO> students = projectEService.getAllStudents();
         return students;
     }
 
-    @GetMapping("/students/{studentId}")
-    public Student getStudentById(@PathVariable Long studentId) {
+    @GetMapping("/students/{studentId}") 
+    public StudentDTO getStudentById(@PathVariable Long studentId) { //doing
         return projectEService.getStudentById(studentId);
     }
 

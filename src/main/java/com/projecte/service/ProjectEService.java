@@ -2,7 +2,11 @@ package com.projecte.service;
 
 import java.util.*;
 
+import com.projecte.dtos.BranchDTO;
+import com.projecte.dtos.ClubDTO;
 import com.projecte.dtos.EventDTO;
+import com.projecte.dtos.StudentDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,13 +48,15 @@ public class ProjectEService {
         studentRepository.deleteById(studentId);
     }
 
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public List<StudentDTO> getAllStudents() {
+    	List<Student> students = studentRepository.findAll();
+        return Student.toDto(students);
     }
 
-    public Student getStudentById(Long studentId) {
+    public StudentDTO getStudentById(Long studentId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
-        return studentOptional.orElse(null);
+        Student student = studentOptional.orElse(null);
+        return Student.toDto(student);
     }
 
 
@@ -73,7 +79,8 @@ public class ProjectEService {
     }
 
     public List<EventDTO> getAllEvents() {
-        return eventRepository.findAllEventDetails();
+    	List<Event> events = eventRepository.findAll();
+        return Event.toDto(events);
     }
 
     public Event getEventById(Long eventId) {

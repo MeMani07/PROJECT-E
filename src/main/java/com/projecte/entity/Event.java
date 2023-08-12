@@ -1,11 +1,15 @@
 package com.projecte.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.projecte.dtos.ClubDTO;
+import com.projecte.dtos.EventDTO;
 
 import jakarta.persistence.*;
 
@@ -102,6 +106,22 @@ public class Event {
 
 	public void setEligibleBranches(Set<Branch> eligibleBranches) {
 		this.eligibleBranches = eligibleBranches;
+	}
+	
+	public static EventDTO toDto(Event event) {
+		return new EventDTO(
+                event.getEventId(),
+                event.getEventName(),
+                event.getClub() != null ? new ClubDTO(event.getClub().getClubId(), event.getClub().getClubName()) : null ,
+                Branch.toDto(event.getEligibleBranches()));
+	}
+	
+	public static List<EventDTO> toDto(List<Event> events){
+		List<EventDTO> result = new ArrayList<>();
+        for (Event event : events) {
+            result.add(toDto(event));
+        }
+        return result;
 	}
 
     // Getters and setters...

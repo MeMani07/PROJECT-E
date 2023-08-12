@@ -36,11 +36,15 @@ public class Branch {
     @OneToMany(mappedBy = "branch")
 	@JsonIgnoreProperties("branch")
     private List<Student> students = new ArrayList<>();
+    
+    public static BranchDTO toDto(Branch branch) {
+    	return new BranchDTO(branch.getBranchId(),branch.getYear(),branch.getBranchName());
+    }
 
-	public static Set<BranchDTO> toDto(Set<Branch> eligibleBranches) {
+	public static Set<BranchDTO> toDto(Set<Branch> branches) {
 		Set<BranchDTO> branchDTOS = new HashSet<>();
-		for(Branch branch: eligibleBranches){
-			branchDTOS.add(new BranchDTO(branch.getBranchId(), branch.getYear(), branch.getBranchName()));
+		for(Branch branch: branches){
+			branchDTOS.add(toDto(branch));
 		}
 		return branchDTOS;
 	}

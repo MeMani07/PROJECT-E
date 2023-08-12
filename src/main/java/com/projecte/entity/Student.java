@@ -1,11 +1,16 @@
 package com.projecte.entity;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.projecte.dtos.BranchDTO;
+import com.projecte.dtos.StudentDTO;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -92,6 +97,23 @@ public class Student {
 	
 	public void setAttendedEvents(Set<Event> attendedEvents) {
 		this.attendedEvents = attendedEvents;
+	}
+	
+	public static StudentDTO toDto(Student student) {
+		return new StudentDTO(
+        		student.getStudentId(),
+        		student.getStudentName(),
+        		student.getEmail(),
+        		student.getMobile(),
+        		student.getBranch()!=null? new BranchDTO(student.getBranch().getBranchId(),student.getBranch().getYear(),student.getBranch().getBranchName()):null);
+	}
+	
+	public static List<StudentDTO> toDto(List<Student> students){
+		List<StudentDTO> result = new ArrayList<>();
+		for (Student student : students) {
+			result.add(toDto(student));
+		}
+		return result;
 	}
 
 	@Override
