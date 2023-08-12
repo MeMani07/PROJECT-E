@@ -5,16 +5,11 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
 @Entity
+@NamedEntityGraph(name = "Student.withBranch", attributeNodes = @NamedAttributeNode("branch"))
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +26,7 @@ public class Student {
     private String mobile;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonIgnoreProperties("students")
     @JoinColumn(name = "branch_id")
     private Branch branch;
 
@@ -99,5 +94,17 @@ public class Student {
 		this.attendedEvents = attendedEvents;
 	}
 
-    // Getters and setters...
+	@Override
+	public String toString() {
+		return "Student{" +
+				"studentId=" + studentId +
+				", studentName='" + studentName + '\'' +
+				", email='" + email + '\'' +
+				", mobile='" + mobile + '\'' +
+				", branch=" + branch +
+				", registeredEvents=" + registeredEvents +
+				", attendedEvents=" + attendedEvents +
+				'}';
+	}
+// Getters and setters...
 }

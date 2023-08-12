@@ -5,19 +5,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.projecte.dtos.BranchDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 @Entity
 public class Branch {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "branch_id")
     private Long branchId;
 
@@ -28,11 +30,20 @@ public class Branch {
     private String branchName;
 
     @ManyToMany(mappedBy = "eligibleBranches")
-    @JsonBackReference
+    @JsonIgnoreProperties("eligibleBranches")
     private Set<Event> eligibleEvents = new HashSet<>();
 
     @OneToMany(mappedBy = "branch")
+	@JsonIgnoreProperties("branch")
     private List<Student> students = new ArrayList<>();
+
+	public static Set<BranchDTO> toDto(Set<Branch> eligibleBranches) {
+		Set<BranchDTO> branchDTOS = new HashSet<>();
+		for(Branch branch: eligibleBranches){
+			branchDTOS.add(new BranchDTO(branch.getBranchId(), branch.getYear(), branch.getBranchName()));
+		}
+		return branchDTOS;
+	}
 
 	public Long getBranchId() {
 		return branchId;

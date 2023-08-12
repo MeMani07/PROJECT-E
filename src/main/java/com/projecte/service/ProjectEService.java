@@ -1,8 +1,8 @@
 package com.projecte.service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import com.projecte.dtos.EventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,10 @@ import com.projecte.repo.BranchRepository;
 import com.projecte.repo.ClubRepository;
 import com.projecte.repo.EventRepository;
 import com.projecte.repo.StudentRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class ProjectEService {
 
     @Autowired
@@ -41,6 +43,7 @@ public class ProjectEService {
     public void deleteStudent(Long studentId) {
         studentRepository.deleteById(studentId);
     }
+
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
@@ -52,6 +55,12 @@ public class ProjectEService {
 
 
     public void addEvent(Event event) {
+        Set<Branch> branches = new HashSet<>();
+        for(Branch branchPassed: event.getEligibleBranches()){
+            Branch branch = getBranchByBranchId(branchPassed.getBranchId());
+            branches.add(branch);
+        }
+        event.setEligibleBranches(branches);
         eventRepository.save(event);
     }
 
@@ -62,8 +71,9 @@ public class ProjectEService {
     public void deleteEvent(Long eventId) {
         eventRepository.deleteById(eventId);
     }
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+
+    public List<EventDTO> getAllEvents() {
+        return eventRepository.findAllEventDetails();
     }
 
     public Event getEventById(Long eventId) {
@@ -83,6 +93,15 @@ public class ProjectEService {
         branchRepository.deleteById(branchId);
     }
 
+    public List<Branch> getAllBranches() {
+        return branchRepository.findAll();
+    }
+
+    public Branch getBranchByBranchId(Long branchId) {
+        Optional<Branch> branchOptional = branchRepository.findById(branchId);
+        return branchOptional.orElse(null);
+    }
+
     public void addClub(Club club) {
         clubRepository.save(club);
     }
@@ -95,5 +114,12 @@ public class ProjectEService {
         clubRepository.deleteById(clubId);
     }
 
-    // Rest of the methods from previous examples...
+    public List<Club> getAllClubs() {
+        return clubRepository.findAll();
+    }
+
+    public Club getClubByClubId(Long clubId) {
+        Optional<Club> clubOptional = clubRepository.findById(clubId);
+        return clubOptional.orElse(null);
+    }
 }

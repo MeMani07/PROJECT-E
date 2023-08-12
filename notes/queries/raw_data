@@ -1,0 +1,57 @@
+DROP database projecte;
+create database projecte;
+use projecte;
+
+
+INSERT into branch(branch_name, year) values("CSE",1);
+INSERT into branch(branch_name, year) values("IT",1);
+INSERT into branch(branch_name, year) values("MECH",1);
+INSERT into branch(branch_name, year) values("EEE",1);
+INSERT into branch(branch_name, year) values("ECE",1);
+INSERT into branch(branch_name, year) values("CIVIL",1);
+INSERT into branch(branch_name, year) values("CSE",2);
+INSERT into branch(branch_name, year) values("IT",2);
+INSERT into branch(branch_name, year) values("MECH",2);
+INSERT into branch(branch_name, year) values("EEE",2);
+INSERT into branch(branch_name, year) values("ECE",2);
+INSERT into branch(branch_name, year) values("CIVIL",2);
+INSERT into branch(branch_name, year) values("CSE",3);
+INSERT into branch(branch_name, year) values("IT",3);
+INSERT into branch(branch_name, year) values("MECH",3);
+INSERT into branch(branch_name, year) values("EEE",3);
+INSERT into branch(branch_name, year) values("ECE",3);
+INSERT into branch(branch_name, year) values("CIVIL",3);
+INSERT into branch(branch_name, year) values("CSE",4);
+INSERT into branch(branch_name, year) values("IT",4);
+INSERT into branch(branch_name, year) values("MECH",4);
+INSERT into branch(branch_name, year) values("EEE",4);
+INSERT into branch(branch_name, year) values("ECE",4);
+INSERT into branch(branch_name, year) values("CIVIL",4);
+INSERT INTO club(club_name) VALUES("Sports");
+INSERT INTO club(club_name) VALUES("Robotics");
+INSERT INTO club(club_name) VALUES("IEEE");
+INSERT INTO club(club_name) VALUES("Fine Arts");
+INSERT INTO club(club_name) VALUES("Cultural");
+INSERT INTO event(event_name, club_id) VALUES("IEEE", 3);
+INSERT INTO event(event_name, club_id) VALUES("Robotics", 2);
+INSERT INTO event(event_name, club_id) VALUES("Cricket", 1);
+INSERT INTO event(event_name, club_id) VALUES("Volley Ball", 1);
+INSERT INTO event(event_name, club_id) VALUES("Drawing", 4);
+INSERT INTO event(event_name, club_id) VALUES("Cultural Dance", 5);
+INSERT INTO event(event_name, club_id) VALUES("College Fest", 5);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Vamshi", "vamshi@oracle.com", "9841372", 21);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Uma Maheshwar", "uma@oracle.com", "9841372", 18);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Mani Vignesh", "mani@oracle.com", "9841372", 19);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Vaishnavi", "vaishnavi@oracle.com", "9841372", 20);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Shreya Kambam", "shreya@oracle.com", "9841372", 23);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Sreeja Alampally", "sreeja@oracle.com", "9841372", 24);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Bhargava Pothireddy", "barghava@oracle.com", "9841372", 18);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Saidattu Mekala", "saidattu@oracle.com", "9841372", 19);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Nikhil Guggila", "vamshi@oracle.com", "9841372", 22);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Anshu", "anshu@oracle.com", "9841372", 19);
+INSERT INTO student(student_name, email, mobile, branch_id) VALUES("Sample", "sample@oracle.com", "9841372", 20);
+
+
+"select new com.projecte.dtos.EventFindAll(e1_0.event_id,e1_0.event_name, new com.projecte.dtos.ClubDTO(c1_0.club_id, c1_0.club_name), new com.projecte.dtos.BranchDTO(e2_1.branch_id,e2_1.year,e2_1.branch_name) from event e1_0 left join club c1_0 on c1_0.club_id=e1_0.club_id left join ( event_eligibility e2_0 join branch e2_1 on e2_1.branch_id=e2_0.branch_id) on e1_0.event_id=e2_0.event_id"
+
+"select new com.example.All(e1_0.event_id, new com.sample(c1_0.club_id, c1_0.club_name))
