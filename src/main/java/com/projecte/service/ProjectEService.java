@@ -243,4 +243,11 @@ public class ProjectEService {
     public List<StudentDTO> getAttendedStudentsForBranchIdEventId(Long branchId, Long eventId){
         return branchRepository.getAttendedStudentsForBranchIdEventId(branchId, eventId);
     }
+
+    public Set<EventDTO> getAllEligibleEventsByStudentId(Long studentId){
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        Student student = studentOptional.orElse(null);
+        return getEventsOfBranchByBranchId(student.getBranch().getBranchId());
+    }
+
 }
